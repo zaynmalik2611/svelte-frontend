@@ -1,41 +1,13 @@
 <script>
-	import {Router, Route, Link} from "svelte-navigator";
+	import {Router, Route} from "svelte-navigator";
 
 	import Login from './components/Login.svelte';
 	import Signup from './components/Signup.svelte';
 	import Navbar from './components/Navbar.svelte';
+	import Posts from './components/Posts.svelte';
+	import Practice from './components/Practice.svelte';
 
-	import {post} from './stores/store';
-
-	import {onMount} from "svelte";
-	let posts = [];
-
-	let foo = 'baz';
-	let bar = 'qux';
-
-	onMount(async () => {
-		fetch("http://localhost:4000/api/posts")
-		.then(res => res.json())
-		.then(data => {
-			posts = data;
-			console.log(posts);
-		}).catch(error => {
-			console.log(error);
-			return [];
-		});
-	});
-
-	async function doPost(body) {
-		console.log("body: ", body);
-		await fetch('http://localhost:4000/api/posts/postAPost', {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(body)
-		});
-	}
+	import {addPost} from './stores/store';
 
 	function postAPost(e) {
 		const formData = new FormData(e.target);
@@ -45,7 +17,7 @@
       		data[key] = value;
     	}
     	console.log(data)
-		doPost(data);
+		addPost(data);
 	}
 </script>
 <Router>
@@ -59,6 +31,7 @@
 		<!--But we also need a backend for our application, so let's build a backend first-->
 		<Route path="login" component={Login} />
 		<Route path="signup" component={Signup} />
+		<Route path="practice" component={Practice} />
 		<Route>
 			<h1>Tailwind css has been added finally</h1>
 			<form on:submit|preventDefault={postAPost} class="content">
@@ -67,12 +40,7 @@
 				<input id="date" name="created_at" type="hidden" value={new Date()}>
 				<button type="submit">Post</button>
 			</form>
-			<h2>Posts</h2>
-			<ul>
-				{#each posts as post}
-					<li>{post.content}...{post.created_at}</li>
-				{/each}
-			</ul>
+			<Posts />
 		</Route>
 	</main>
 </Router>
