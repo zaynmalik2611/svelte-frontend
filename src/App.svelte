@@ -37,7 +37,7 @@
 			<form on:submit|preventDefault={postAPost} class="content">
 				<label for="content">Post</label>
 				<input id="content" name="content" type="text" value="" />
-				<input id="date" name="created_at" type="hidden" value={new Date()}>
+				<input id="date" name="created_at" type="hidden" value={new Date().toISOString()}>
 				<button type="submit">Post</button>
 			</form>
 			<Posts />

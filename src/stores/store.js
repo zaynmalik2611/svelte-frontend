@@ -31,5 +31,17 @@ async function addPost(post) {
         });
 }
 
+async function deletePost(id) {
+	await fetch(`http://localhost:4000/api/posts/${id}`, {
+		method: 'DELETE'
+	}).then(res => {
+		posts.update(posts => posts.filter((post) => {
+			return post._id !== id;
+		}));
+	}).catch(error => {
+		console.log(error);
+		return error;
+	});
+}
 
-export { posts, populatePosts, addPost };
+export { posts, populatePosts, addPost, deletePost };

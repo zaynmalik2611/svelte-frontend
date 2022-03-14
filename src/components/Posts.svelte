@@ -14,7 +14,7 @@
     <h2 class="posts-heading">Posts</h2>
     <ul>
         {#each $posts as post}
-            <Post content={post.content} date={post.created_at} />
+            <Post id={post._id} content={post.content} date={post.created_at} />
         {/each}
     </ul>
 </div>
