@@ -1,21 +1,56 @@
 <script>
-    import {deletePost} from '../stores/store';
-export let content;
-export let date;
-export let id;
+    import {deletePost, isModal, openModal} from '../stores/store';
+    import Modal from './Modal.svelte';
+    export let content;
+    export let date;
+// export let id;
+
+import moment from 'moment';
+moment.locale('en', {
+    relativeTime : {
+        future: "in %s",
+        past:   "%s ago",
+        s:  "s",
+        m:  "1 m",
+        mm: "%d m",
+        h:  "1 h",
+        hh: "%d h",
+        d:  "1 d",
+        dd: "%d d",
+        M:  "1 mth",
+        MM: "%d mth",
+        y:  "1 y",
+        yy: "%d y"
+    }
+});
+
 </script>
-<!--Let's make a div for posts-->
-<!--Let's make a mechanism to judge date -->
-<!--Let's rather make a deleting mechanism for the dates-->
+
+<!--Let's make a commenting functionality-->
+<!--First I will have to implement it in the frontend and then in the backend-->
+<!--I think I should also implement the post card feature-->
+<!--There should also be a post size limit-->
+<!--Frontend is what is visible to people, I should work on the frontend more-->
+
+
 <div class="post-card">
-    <p>{content}</p>
-    <div class="date">
-        <h2>{date}</h2>
-    </div>
-    <div class="delete-div">
-        <button on:click={deletePost(id)} class="delete">Delete</button>
+    <div class="content-div">
+        <p class="content">{content.slice(0, 155)}
+            {#if content.length > 150}
+                <span>...</span>
+                <button on:click={openModal} class="read-more-btn">Read More</button>
+                <Modal content={content}/>
+            {/if}
+        </p>
     </div>
     
+    <div class="date">
+        <h2>{moment(date).fromNow()}</h2>
+    </div>
+    <!-- <div class="delete-div">
+        <button on:click={deletePost(id)} class="delete">Delete</button>
+    </div>
+     -->
     
 </div>
 
@@ -30,16 +65,22 @@ export let id;
         padding: 10px;
     }
 
-    .delete-div {
+    .content-div {
+        height: 85%;
+        overflow: hidden;
+    }
+
+    /* .delete-div {
         position: relative;
         height: 135px;
-    }
+    } */
     .date {
         display: block;
         position: absolute;
         bottom: 0px;
+        padding-bottom: 5px;
     }
-    .delete {
+    /* .delete {
         display: block;
         position: absolute;
         bottom: 0px;
@@ -53,5 +94,15 @@ export let id;
     }
     .delete:active {
         background-color: rgb(255, 0, 0);
+    } */
+
+    .read-more-btn {
+        font-size: small;
+        border-radius: 8px;
+        padding: 3px 5px;
+    }
+    .read-more-btn:hover {
+        background-color: black;
+        color: white;
     }
 </style>

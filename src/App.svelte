@@ -7,18 +7,6 @@
 	import Posts from './components/Posts.svelte';
 	import Practice from './components/Practice.svelte';
 
-	import {addPost} from './stores/store';
-
-	function postAPost(e) {
-		const formData = new FormData(e.target);
-		const data = {};
-    	for (let field of formData) {
-      		const [key, value] = field;
-      		data[key] = value;
-    	}
-    	console.log(data)
-		addPost(data);
-	}
 </script>
 <Router>
 	<header>
@@ -33,17 +21,11 @@
 		<Route path="signup" component={Signup} />
 		<Route path="practice" component={Practice} />
 		<Route>
-			<h1>Tailwind css has been added finally</h1>
-			<form on:submit|preventDefault={postAPost} class="content">
-				<label for="content">Post</label>
-				<input id="content" name="content" type="text" value="" />
-				<input id="date" name="created_at" type="hidden" value={new Date().toISOString()}>
-				<button type="submit">Post</button>
-			</form>
 			<Posts />
 		</Route>
 	</main>
 </Router>
 
 <style>
+
 </style>

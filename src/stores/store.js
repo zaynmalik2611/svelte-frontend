@@ -1,6 +1,15 @@
 import {writable} from "svelte/store";
 
 const posts = writable([]);
+const isModal = writable(false);
+
+function openModal() {
+	isModal.update(val => val = true);
+}
+
+function closeModal() {
+	isModal.update(val => val = false);
+}
 
 async function populatePosts() {
     let fetchedPosts = await fetch("http://localhost:4000/api/posts")
@@ -44,4 +53,4 @@ async function deletePost(id) {
 	});
 }
 
-export { posts, populatePosts, addPost, deletePost };
+export { posts, populatePosts, addPost, deletePost, isModal, openModal, closeModal };
