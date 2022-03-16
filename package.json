@@ -26,8 +26,10 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.1.0",
     "moment": "^2.29.1",
     "sirv-cli": "^2.0.0",
+    "svelte-fa": "^2.4.0",
     "svelte-navigator": "^3.1.5"
   }
 }

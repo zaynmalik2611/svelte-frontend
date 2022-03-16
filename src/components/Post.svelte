@@ -1,12 +1,15 @@
 <script>
     import {deletePost, isModal, openModal} from '../stores/store';
     import Modal from './Modal.svelte';
+    import moment from 'moment';
     export let content;
     export let date;
 // export let id;
 
-import moment from 'moment';
-moment.locale('en', {
+    let imageUrl = "/images/missing.jpg";
+
+
+moment.updateLocale('en', {
     relativeTime : {
         future: "in %s",
         past:   "%s ago",
@@ -34,18 +37,21 @@ moment.locale('en', {
 
 
 <div class="post-card">
+    <div class="post-image-div">
+        <img src={imageUrl} alt="">
+    </div>
     <div class="content-div">
         <p class="content">{content.slice(0, 155)}
             {#if content.length > 150}
                 <span>...</span>
                 <button on:click={openModal} class="read-more-btn">Read More</button>
-                <Modal content={content}/>
+                <Modal imageUrl={imageUrl} content={content} date={moment(date).fromNow()}/>
             {/if}
         </p>
     </div>
     
     <div class="date">
-        <h2>{moment(date).fromNow()}</h2>
+        <h2 id="post-date">{moment(date).fromNow()}</h2>
     </div>
     <!-- <div class="delete-div">
         <button on:click={deletePost(id)} class="delete">Delete</button>
@@ -58,16 +64,20 @@ moment.locale('en', {
     .post-card {
         position: relative;
         width: 250px;
-        height: 200px;
         box-sizing: border-box;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         margin-bottom: 15px;
-        padding: 10px;
+        padding: 25px 20px 15px 20px;
+    }
+
+    .post-image-div {
+        margin-bottom: 10px;
     }
 
     .content-div {
         height: 85%;
         overflow: hidden;
+        margin-bottom: 14px;
     }
 
     /* .delete-div {
@@ -77,9 +87,13 @@ moment.locale('en', {
     .date {
         display: block;
         position: absolute;
-        bottom: 0px;
+        bottom: 3px;
+        right: 10px;
         padding-bottom: 5px;
+        font-size: 11px;
+        font-weight: 300;
     }
+
     /* .delete {
         display: block;
         position: absolute;
